@@ -3,18 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>To-DO</title>
+    <script>
+        nav.ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        nav ul {
+            display: inline;
+        }
+
+        nav ul a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav ul a:hover {
+            background-color: #555;
+        }
+    </script>
 </head>
 <body>
-<h1>To- DO Web App</h1>
+{% extends 'todo/base.html' %}
 
-<h1>Things to do:</h1>
+{% block content %}
+<nav>
+    <ul>
+        <li><a href="{% url 'index' %}">Add Task</a></li>
+    </ul>
+</nav>
 <table>
+    <tr>
+        <th><h3>Task</h3></th>
+        <th><h3>Status</h3></th>
+    </tr>
     {% for item in object_list %}
     <tr>
         <td>{{ item.text }}</td>
-        <td>{{ item.due_date }}</td>
+        <td>
+            {% if item.is_complete %}
+            complete
+            {% else %}
+            <a href="{% url 'mark_complete' item.id %}">Mark as Done</a>
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>
+{% endblock %}
+
 </body>
 </html>

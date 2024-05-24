@@ -1,7 +1,7 @@
 from datetime import date
 
 from django.http import HttpResponseRedirect
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.shortcuts import redirect, render
 from .models import ToDoItem
 from .forms import ToDoForm
@@ -20,10 +20,13 @@ class AllToDos(ListView):
             # Handle form errors if needed
             pass
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = ToDoForm()  # Add form to context for rendering in template
-        return context
+    def get_queryset(self):
+        return ToDoItem.objects.filter().order_by('due_date')
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['form'] = ToDoForm()  # Add form to context for rendering in template
+    #     return context
 
 
 class TodayToDo(ListView):
@@ -71,8 +74,8 @@ def del_task(request, pk):
 
 def edit_task(request, pk):
     task = ToDoItem.objects.get(pk=pk)
-    if request.method=='POST':
-        form = ToDoForm(request.POST,instance=task)
+    if request.method == 'POST':
+        form = ToDoForm(request.POST, instance=task)
 
         if form.is_valid():
             form.save()
@@ -82,9 +85,7 @@ def edit_task(request, pk):
                 return redirect('today')
             else:
                 return redirect('index')
-
     else:
         form = ToDoForm(instance=task)
 
-    return render(request, 'todo/edit.html',{'form':form})
-
+    return render(request, 'todo/edit.html', {'form': form})

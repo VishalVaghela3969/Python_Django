@@ -20,7 +20,7 @@ from . import views
 
 urlpatterns = [
     path('', views.AllToDos.as_view(), name='index'),
-    path('today/', views.TodayToDo.as_view(), name='today'),
+    path('todaytask/', views.TodayToDo.as_view(), name='today'),
     path('mark_complete/<int:pk>/', views.mark_complete, name='mark_complete'),
     path('mark_incomplete/<int:pk>/', views.mark_incomplete, name='mark_incomplete'),
     path('del_task/<int:pk>/', views.del_task, name='del_task'),

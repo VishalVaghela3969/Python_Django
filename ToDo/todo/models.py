@@ -7,5 +7,5 @@ class ToDoItem(models.Model):
     due_date = models.DateField(default=timezone.now)
     is_complete = models.BooleanField(default=False)
 
-    def __str__(self):
-        return f"{self.text}: due {self.due_date}"
+    # def __str__(self):
+    #     return f"{self.text}: due {self.due_date}"

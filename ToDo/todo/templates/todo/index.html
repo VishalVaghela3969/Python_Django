@@ -38,21 +38,40 @@
         <li><a href="{% url 'index' %}">Add Task</a></li>
     </ul>
 </nav>
-<table>
+<table class="center">
     <tr>
         <th><h3>Task</h3></th>
+        <th><h3>Due Date</h3></th>
         <th><h3>Status</h3></th>
+        <th colspan="2"><h3>Action</h3></th>
     </tr>
     {% for item in object_list %}
     <tr>
         <td>{{ item.text }}</td>
+        <td>{{ item.due_date }}</td>
         <td>
             {% if item.is_complete %}
-            complete
+            <a href="{% url 'mark_incomplete' item.id %}" style="color:green;text-decoration:none">
+                Done
+            </a>
             {% else %}
-            <a href="{% url 'mark_complete' item.id %}">Mark as Done</a>
+            <a href="{% url 'mark_complete' item.id %}" style="color:red;text-decoration:none">
+                Not Done
+            </a>
             {% endif %}
         </td>
+        <td>
+            <a href="{% url 'edit_task' item.id %}" style="text-decoration:none">
+                Edit
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'del_task' item.id %}" style="text-decoration:none">
+                Delete
+            </a>
+        </td>
+
+
     </tr>
     {% endfor %}
 </table>
